@@ -13,8 +13,8 @@ Depends on the **Godot Tools** extension's GDShader grammar.
 
 ## Installation
 
-1. Install the extension from the Marketplace.
-2. Install **Godot Tools** to get GDShader-based highlighting.
+1. Install the extension from the `gmacs-syntax-x.x.x.vsix` file.
+2. Install **Godot Tools** from the Marketplace to get GDShader-based highlighting.
 
 ## Notes
 
