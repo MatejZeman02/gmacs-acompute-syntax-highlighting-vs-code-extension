@@ -1,0 +1,53 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "GMACS/ACOMPUTE Compute Shader syntax higlighting",
+    "scopeName": "source.gmacs",
+    "patterns": [
+        {
+            "match": "^\\s*(#include)\\s+(\"[^\"]+\"|<[^>]+>)",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.directive.include.gmacs"
+                },
+                "2": {
+                    "name": "string.quoted.double.include.gmacs"
+                }
+            }
+        },
+        {
+            "match": "^\\s*(#kernel)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.directive.kernel.gmacs"
+                },
+                "2": {
+                    "name": "entity.name.function.gmacs"
+                }
+            }
+        },
+        {
+            "begin": "\\[\\s*(numthreads)\\b",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.other.numthreads.gmacs"
+                }
+            },
+            "end": "\\]",
+            "patterns": [
+                {
+                    "match": "\\b[0-9]+\\b",
+                    "name": "constant.numeric.integer.gmacs"
+                }
+            ]
+        },
+        {
+            "include": "source.gdshader"
+        },
+        {
+            "include": "source.glsl"
+        },
+        {
+            "include": "source.c"
+        }
+    ]
+}
