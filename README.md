@@ -3,7 +3,7 @@
 Syntax highlighting for `.gmacs` and `.acompute` shader files for Godot.
 Depends on the **Godot Tools** extension's GDShader grammar.
 
-!["screenshot.png"](https://raw.githubusercontent.com/MatejZeman02/gmacs-acompute-syntax-highlighting-vs-code-extension/main/screenshot.jpg)
+!["screenshot.png"](https://raw.githubusercontent.com/MatejZeman02/gmacs-acompute-syntax-highlighting-vs-code-extension/refs/heads/main/screenshot.png)
 
 ## Features
 
