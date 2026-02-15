@@ -42,12 +42,6 @@
         },
         {
             "include": "source.gdshader"
-        },
-        {
-            "include": "source.glsl"
-        },
-        {
-            "include": "source.c"
         }
     ]
 }

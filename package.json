@@ -1,15 +1,23 @@
 {
-    "name": "gmacs-acompute-syntax",
-    "displayName": "GMACS/ACOMPUTE Compute Shader",
-    "description": "Syntax highlighting for Godot Matej-Acerola Compute Shaders (.gmacs)",
-    "version": "1.0.0",
+    "name": "gmacs-syntax",
+    "displayName": "GMACS/ACOMPUTE Compute Shader Syntax",
+    "description": "Syntax highlighting for Acerola/Godot MA Compute Shaders (.acompute, .gmacs)",
+    "version": "1.0.1",
     "publisher": "Matej Zeman",
     "license": "MIT",
+    "icon": "extension-logo.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MatejZeman02/gmacs-acompute-syntax-highlighting-vs-code-extension.git"
+    },
     "engines": {
         "vscode": "^1.80.0"
     },
     "categories": [
         "Programming Languages"
+    ],
+    "extensionDependencies": [
+        "geequlim.godot-tools"
     ],
     "contributes": {
         "languages": [
@@ -17,14 +25,16 @@
                 "id": "gmacs",
                 "aliases": [
                     "GMACS",
-                    "ACOMPUTE",
-                    "gmacs",
-                    "acompute"
+                    "ACOMPUTE"
                 ],
                 "extensions": [
                     ".gmacs",
                     ".acompute"
-                ]
+                ],
+                "icon": {
+                    "light": "./file-icon.png",
+                    "dark": "./file-icon.png"
+                }
             }
         ],
         "grammars": [
