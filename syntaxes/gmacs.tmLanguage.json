@@ -22,6 +22,9 @@
             "include": "#comment"
         },
         {
+            "include": "#decorator"
+        },
+        {
             "include": "#kernel"
         },
         {
@@ -429,6 +432,10 @@
         "block-colon": {
             "name": "punctuation.section.block.begin.gmacs",
             "match": ":(?=\\s*(?:#.*)?$)"
+        },
+        "decorator": {
+            "name": "entity.name.function.decorator.gmacs",
+            "match": "@[A-Za-z_]\\w*"
         }
     }
 }
