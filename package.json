@@ -25,10 +25,12 @@
             {
                 "id": "gmacs",
                 "aliases": [
-                    "GMACS"
+                    "GMACS",
+                    "ACOMPUTE"
                 ],
                 "extensions": [
                     ".gmacs",
+                    ".acompute",
                     ".glsl",
                     ".c"
                 ],
