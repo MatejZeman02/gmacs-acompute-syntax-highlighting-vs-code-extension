@@ -1,10 +1,81 @@
 {
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "GMACS/ACOMPUTE Compute Shader syntax higlighting",
+    "name": "GMACS compute shader dialect",
     "scopeName": "source.gmacs",
     "patterns": [
         {
-            "match": "^\\s*(#include)\\s+(\"[^\"]+\"|<[^>]+>)",
+            "include": "#directive-include"
+        },
+        {
+            "include": "#directive-kernel"
+        },
+        {
+            "include": "#numthreads"
+        },
+        {
+            "include": "#preprocessor-macro"
+        },
+        {
+            "include": "#preprocessor"
+        },
+        {
+            "include": "#comment"
+        },
+        {
+            "include": "#kernel"
+        },
+        {
+            "include": "#import"
+        },
+        {
+            "include": "#def"
+        },
+        {
+            "include": "#struct"
+        },
+        {
+            "include": "#params"
+        },
+        {
+            "include": "#image"
+        },
+        {
+            "include": "#sampler"
+        },
+        {
+            "include": "#buffer"
+        },
+        {
+            "include": "#for-range"
+        },
+        {
+            "include": "#case-wildcard"
+        },
+        {
+            "include": "#match"
+        },
+        {
+            "include": "#keyword-control"
+        },
+        {
+            "include": "#block-colon"
+        },
+        {
+            "include": "source.gdshader"
+        }
+    ],
+    "repository": {
+        "comment": {
+            "name": "comment.line.number-sign.gmacs",
+            "match": "(#).*$",
+            "captures": {
+                "1": {
+                    "name": "punctuation.definition.comment.gmacs"
+                }
+            }
+        },
+        "directive-include": {
+            "match": "^\\s*(#include)\\s+(\\\"[^\\\"]+\\\"|<[^>]+>)",
             "captures": {
                 "1": {
                     "name": "keyword.control.directive.include.gmacs"
@@ -14,7 +85,7 @@
                 }
             }
         },
-        {
+        "directive-kernel": {
             "match": "^\\s*(#kernel)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
             "captures": {
                 "1": {
@@ -25,7 +96,7 @@
                 }
             }
         },
-        {
+        "numthreads": {
             "begin": "\\[\\s*(numthreads)\\b",
             "beginCaptures": {
                 "1": {
@@ -40,8 +111,324 @@
                 }
             ]
         },
-        {
-            "include": "source.gdshader"
+        "preprocessor-macro": {
+            "match": "^\\s*(#(?:define|undef|ifdef|ifndef))\\s+([A-Za-z_]\\w*)",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.directive.gmacs"
+                },
+                "2": {
+                    "name": "entity.name.function.preprocessor.gmacs"
+                }
+            }
+        },
+        "preprocessor": {
+            "match": "^\\s*(#(?:version|pragma|extension|if|elif|else|endif|line|error))\\b",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.directive.gmacs"
+                }
+            }
+        },
+        "type-builtin": {
+            "name": "support.type.gmacs",
+            "match": "\\b(?:void|bool|u?int|float|double|[biud]?vec[234]|d?mat[234](?:x[234])?|[iu]?(?:sampler|image)(?:1D|2D|3D|Cube|Buffer|1DArray|2DArray|2DMS|2DRect|CubeArray)|atomic_uint)\\b"
+        },
+        "type-user": {
+            "name": "entity.name.type.gmacs",
+            "match": "\\b[A-Za-z_]\\w*\\b(?=\\s+[A-Za-z_]\\w*)"
+        },
+        "storage-modifier": {
+            "name": "storage.modifier.gmacs",
+            "match": "\\b(?:const|in|out|inout|uniform|shared|readonly|writeonly|coherent|volatile|restrict|highp|mediump|lowp|flat|smooth)\\b"
+        },
+        "number": {
+            "name": "constant.numeric.gmacs",
+            "match": "\\b(?:0[xX][0-9A-Fa-f]+|\\d+)[uU]?\\b"
+        },
+        "kernel": {
+            "match": "^\\s*(kernel)\\s+([A-Za-z_]\\w*)\\b",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.directive.kernel.gmacs"
+                },
+                "2": {
+                    "name": "entity.name.function.gmacs"
+                }
+            }
+        },
+        "import": {
+            "match": "^\\s*(import)\\s+([A-Za-z_][\\w/]*)",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.import.gmacs"
+                },
+                "2": {
+                    "name": "entity.name.namespace.gmacs"
+                }
+            }
+        },
+        "image": {
+            "match": "^\\s*(image)\\s+([A-Za-z_]\\w*)(?:\\s*(:)([^#\\n]*))?",
+            "captures": {
+                "1": {
+                    "name": "storage.type.image.gmacs"
+                },
+                "2": {
+                    "name": "variable.other.binding.gmacs"
+                },
+                "3": {
+                    "name": "punctuation.separator.colon.gmacs"
+                },
+                "4": {
+                    "patterns": [
+                        {
+                            "name": "constant.language.image-format.gmacs",
+                            "match": "\\b(?:rgba32f|rgba16f|r32f|r16f)\\b"
+                        },
+                        {
+                            "name": "storage.modifier.gmacs",
+                            "match": "\\b(?:readonly|writeonly|coherent|volatile|restrict)\\b"
+                        }
+                    ]
+                }
+            }
+        },
+        "sampler": {
+            "match": "^\\s*(sampler)\\s+([A-Za-z_]\\w*)\\b",
+            "captures": {
+                "1": {
+                    "name": "storage.type.sampler.gmacs"
+                },
+                "2": {
+                    "name": "variable.other.binding.gmacs"
+                }
+            }
+        },
+        "buffer": {
+            "match": "^\\s*(buffer)\\s+([A-Za-z_]\\w*)\\s*(:)([^#\\n]*)",
+            "captures": {
+                "1": {
+                    "name": "storage.type.buffer.gmacs"
+                },
+                "2": {
+                    "name": "variable.other.binding.gmacs"
+                },
+                "3": {
+                    "name": "punctuation.separator.colon.gmacs"
+                },
+                "4": {
+                    "patterns": [
+                        {
+                            "include": "#comment"
+                        },
+                        {
+                            "include": "#storage-modifier"
+                        },
+                        {
+                            "include": "#type-builtin"
+                        },
+                        {
+                            "include": "#type-user"
+                        },
+                        {
+                            "include": "#number"
+                        },
+                        {
+                            "name": "variable.other.member.gmacs",
+                            "match": "\\b[A-Za-z_]\\w*\\b"
+                        }
+                    ]
+                }
+            }
+        },
+        "params": {
+            "name": "meta.params.gmacs",
+            "begin": "^([ \\t]*)(params)(?:\\s+([A-Za-z_]\\w*))?\\s*(:)",
+            "beginCaptures": {
+                "2": {
+                    "name": "storage.type.params.gmacs"
+                },
+                "3": {
+                    "name": "variable.other.binding.gmacs"
+                },
+                "4": {
+                    "name": "punctuation.section.block.begin.gmacs"
+                }
+            },
+            "end": "^(?!\\1[ \\t]+\\S|[ \\t]*$|[ \\t]*#)",
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#storage-modifier"
+                },
+                {
+                    "include": "#type-builtin"
+                },
+                {
+                    "include": "#type-user"
+                },
+                {
+                    "include": "#number"
+                },
+                {
+                    "name": "variable.other.member.gmacs",
+                    "match": "\\b[A-Za-z_]\\w*\\b"
+                }
+            ]
+        },
+        "struct": {
+            "name": "meta.struct.gmacs",
+            "begin": "^([ \\t]*)(struct)\\s+([A-Za-z_]\\w*)\\s*(:)",
+            "beginCaptures": {
+                "2": {
+                    "name": "storage.type.struct.gmacs"
+                },
+                "3": {
+                    "name": "entity.name.type.struct.gmacs"
+                },
+                "4": {
+                    "name": "punctuation.section.block.begin.gmacs"
+                }
+            },
+            "end": "^(?!\\1[ \\t]+\\S|[ \\t]*$|[ \\t]*#)",
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#storage-modifier"
+                },
+                {
+                    "include": "#type-builtin"
+                },
+                {
+                    "include": "#type-user"
+                },
+                {
+                    "include": "#number"
+                },
+                {
+                    "name": "variable.other.member.gmacs",
+                    "match": "\\b[A-Za-z_]\\w*\\b"
+                }
+            ]
+        },
+        "def": {
+            "name": "meta.function.gmacs",
+            "begin": "^\\s*(def)\\s+([A-Za-z_]\\w*)\\s*(\\()",
+            "beginCaptures": {
+                "1": {
+                    "name": "storage.type.function.gmacs"
+                },
+                "2": {
+                    "name": "entity.name.function.gmacs"
+                },
+                "3": {
+                    "name": "punctuation.section.parameters.begin.gmacs"
+                }
+            },
+            "end": "(\\))(?:\\s*(->)\\s*([A-Za-z_]\\w*))?|(?=^(?:def|kernel|import|struct|params)\\b)",
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation.section.parameters.end.gmacs"
+                },
+                "2": {
+                    "name": "punctuation.separator.annotation.result.gmacs"
+                },
+                "3": {
+                    "patterns": [
+                        {
+                            "include": "#type-builtin"
+                        },
+                        {
+                            "name": "entity.name.type.gmacs",
+                            "match": "\\w+"
+                        }
+                    ]
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#storage-modifier"
+                },
+                {
+                    "include": "#type-builtin"
+                },
+                {
+                    "include": "#type-user"
+                },
+                {
+                    "include": "#number"
+                },
+                {
+                    "name": "variable.parameter.gmacs",
+                    "match": "\\b[A-Za-z_]\\w*\\b"
+                }
+            ]
+        },
+        "for-range": {
+            "match": "^\\s*(for)\\s+(?:([A-Za-z_]\\w*)\\s+)?([A-Za-z_]\\w*)\\s+(in)\\s+(range_inclusive|range)\\b",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.gmacs"
+                },
+                "2": {
+                    "patterns": [
+                        {
+                            "include": "#type-builtin"
+                        },
+                        {
+                            "name": "entity.name.type.gmacs",
+                            "match": "\\w+"
+                        }
+                    ]
+                },
+                "3": {
+                    "name": "variable.other.gmacs"
+                },
+                "4": {
+                    "name": "keyword.control.gmacs"
+                },
+                "5": {
+                    "name": "support.function.builtin.gmacs"
+                }
+            }
+        },
+        "case-wildcard": {
+            "match": "^\\s*(case)\\s+(_)\\s*(:)",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.gmacs"
+                },
+                "2": {
+                    "name": "constant.language.wildcard.gmacs"
+                },
+                "3": {
+                    "name": "punctuation.section.block.begin.gmacs"
+                }
+            }
+        },
+        "match": {
+            "match": "^\\s*(match)\\s+(?=[^=\\s])",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.gmacs"
+                }
+            }
+        },
+        "keyword-control": {
+            "name": "keyword.control.gmacs",
+            "match": "\\b(?:if|elif|else|while|for|do|switch|case|default|return|break|continue|discard)\\b"
+        },
+        "block-colon": {
+            "name": "punctuation.section.block.begin.gmacs",
+            "match": ":(?=\\s*(?:#.*)?$)"
         }
-    ]
+    }
 }
