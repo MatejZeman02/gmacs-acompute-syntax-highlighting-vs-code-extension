@@ -1,7 +1,7 @@
 # GMACS syntax highlighting for VS Code
 
-Syntax highlighting for `.gmacs` files, the compute shader language of the
-[Sara](https://github.com/MatejZeman02/sara-skeleton) painting program.
+Syntax highlighting for `.gmacs` and `.acompute` files, the compute shader
+languages of the Sara painting program.
 
 !["screenshot.png"](https://raw.githubusercontent.com/MatejZeman02/gmacs-acompute-syntax-highlighting-vs-code-extension/refs/heads/main/screenshot.png)
 
@@ -26,14 +26,16 @@ This extension colours both halves. The Python-shaped half has its own grammar:
 Plain GLSL bodies fall through to the GDShader grammar from **Godot Tools**,
 which colours types, swizzles, numbers and operators.
 
-The old hash forms (`#include`, `#kernel`, `[numthreads]`) and the GLSL
-preprocessor lines are still coloured, so a file written as GLSL looks right too.
+A kernel written as GLSL is coloured as well: `#kernel`, `#include`,
+`[numthreads(...)]`, `layout(...)` and the preprocessor lines. This is the form
+`.acompute` files use, and it was checked against real Sara kernels of that
+shape.
 
 ## File types
 
-The extension claims `.gmacs`, `.glsl` and `.c`. The last two are claimed on
-purpose, so shader code kept in those files gets the same colours. If another
-extension should win for them, set `files.associations` in your VS Code
+The extension claims `.gmacs`, `.acompute`, `.glsl` and `.c`. The last two are
+claimed on purpose, so shader code kept in those files gets the same colours. If
+another extension should win for them, set `files.associations` in your VS Code
 settings.
 
 ## Colours
@@ -75,21 +77,56 @@ VSIX**. Reload the window afterwards.
 
 The extension depends on **Godot Tools**, and VS Code installs it alongside.
 
-## The language
+## The language in brief
 
-The dialect is documented in the Sara repository:
+A `.gmacs` kernel names itself, declares its storage, then defines functions:
 
-- [The kernel language](https://github.com/MatejZeman02/sara-skeleton/blob/main/docs/specs/scripting.md#the-kernel-language),
-  the design as it was decided
-- [GMACS.md](https://github.com/MatejZeman02/sara-skeleton/blob/main/docs/architecture/GMACS.md),
-  the reference for what the compiler reads today
+```
+kernel blur_x
+import gaussian
+
+image src: readonly
+image dst
+
+params:
+    float sigma
+    int radius
+
+def blur_x():
+    vec4 sum = vec4(0.0)
+    float weight = 0.0
+    for i in range(-radius, radius + 1):
+        float w = gaussian(float(i), sigma)
+        sum += w * image_load(src, pixel + ivec2(i, 0))
+        weight += w
+    image_store(dst, pixel, sum / weight)
+```
+
+- `kernel` names the entry point and `import` pulls in a shared file.
+- `image`, `sampler` and `buffer` declare storage, and `params:` lists the
+  values a dispatch passes in.
+- Indentation sets the blocks, and the body is GLSL.
+- Built-ins are snake_case, such as `image_load`. The GLSL spellings still work.
+- `pixel` is the pixel the current run is for, and `and`, `or` and `not` stand
+  for `&&`, `||` and `!`.
+
+An `.acompute` file skips the dialect and writes the kernel as GLSL:
+
+```glsl
+#kernel fill
+[numthreads(8, 8, 1)]
+layout(rgba32f, set = 0, binding = 0) uniform image2D canvas;
+
+[numthreads(8, 8, 1)] void fill() {
+    imageStore(canvas, ivec2(gl_GlobalInvocationID.xy), vec4(1.0));
+}
+```
 
 ## What changed in 1.1.0
 
 - The Python-shaped half of the dialect now has a grammar of its own.
 - The `@` of a decorator takes the same colour as its name.
 - `and`, `or` and `not` share the scope of `if`.
-- `.acompute` files and the ACOMPUTE alias are no longer supported.
 
 ## Issues
 
