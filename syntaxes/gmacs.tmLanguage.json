@@ -64,6 +64,9 @@
             "include": "#block-colon"
         },
         {
+            "include": "#expression"
+        },
+        {
             "include": "source.gdshader"
         }
     ],
@@ -436,6 +439,77 @@
         "decorator": {
             "name": "entity.name.function.decorator.gmacs",
             "match": "@[A-Za-z_]\\w*"
+        },
+        "word-operator": {
+            "name": "keyword.control.gmacs",
+            "match": "\\b(?:and|or|not)\\b"
+        },
+        "operand": {
+            "name": "variable.other.gmacs",
+            "match": "\\b(?!(?:true|false)\\b)[A-Za-z_]\\w*\\b(?=\\s+(?:and|or)\\b)"
+        },
+        "builtin-variable": {
+            "name": "variable.language.gmacs",
+            "match": "(?<![.\\w])(?:pixel|gl_LocalInvocationIndex|gl_GlobalInvocationID|gl_LocalInvocationID|gl_NumWorkGroups|gl_WorkGroupSize|gl_WorkGroupID|group_count|local_index|group_size|global_id|group_id|local_id|gl_\\w+)\\b"
+        },
+        "builtin-function": {
+            "name": "support.function.builtin.gmacs",
+            "match": "\\b(?:memory_barrier_atomic_counter|memoryBarrierAtomicCounter|atomic_counter_decrement|atomic_counter_increment|atomicCounterDecrement|atomicCounterIncrement|image_atomic_comp_swap|texture_gather_offsets|image_atomic_exchange|memory_barrier_buffer|memory_barrier_shared|texture_gather_offset|group_memory_barrier|memory_barrier_image|textureGatherOffsets|texture_query_levels|imageAtomicCompSwap|imageAtomicExchange|memoryBarrierBuffer|memoryBarrierShared|textureGatherOffset|texture_grad_offset|texture_proj_offset|float_bits_to_uint|greater_than_equal|groupMemoryBarrier|memoryBarrierImage|texel_fetch_offset|textureQueryLevels|texture_lod_offset|uint_bits_to_float|float_bits_to_int|int_bits_to_float|textureGradOffset|textureProjOffset|texture_proj_grad|texture_query_lod|unpack_double2x32|atomic_comp_swap|bitfield_extract|bitfield_reverse|greaterThanEqual|image_atomic_add|image_atomic_and|image_atomic_max|image_atomic_min|image_atomic_xor|matrix_comp_mult|texelFetchOffset|textureLodOffset|texture_proj_lod|unpackDouble2x32|unpack_snorm2x16|unpack_unorm2x16|atomic_exchange|bitfieldExtract|bitfieldReverse|bitfield_insert|control_barrier|floatBitsToUint|image_atomic_or|less_than_equal|pack_double2x32|textureProjGrad|textureQueryLod|texture_samples|uintBitsToFloat|unpackSnorm2x16|unpackUnorm2x16|unpack_half2x16|unpack_snorm4x8|unpack_unorm4x8|atomicCompSwap|atomicExchange|atomic_counter|bitfieldInsert|controlBarrier|floatBitsToInt|imageAtomicAdd|imageAtomicAnd|imageAtomicMax|imageAtomicMin|imageAtomicXor|intBitsToFloat|matrixCompMult|memory_barrier|packDouble2x32|pack_snorm2x16|pack_unorm2x16|textureProjLod|textureSamples|texture_gather|texture_offset|unpackHalf2x16|unpackSnorm4x8|unpackUnorm4x8|atomicCounter|imageAtomicOr|image_samples|imul_extended|lessThanEqual|memoryBarrier|outer_product|packSnorm2x16|packUnorm2x16|pack_half2x16|pack_snorm4x8|pack_unorm4x8|textureGather|textureOffset|umul_extended|greater_than|imageSamples|imulExtended|outerProduct|packHalf2x16|packSnorm4x8|packUnorm4x8|texture_grad|texture_proj|texture_size|umulExtended|greaterThan|image_store|texel_fetch|textureGrad|textureProj|textureSize|texture_lod|usub_borrow|atomic_add|atomic_and|atomic_max|atomic_min|atomic_xor|imageStore|image_load|image_size|round_even|texelFetch|textureLod|uadd_carry|usubBorrow|atomicAdd|atomicAnd|atomicMax|atomicMin|atomicXor|atomic_or|bit_count|imageLoad|imageSize|less_than|not_equal|roundEven|uaddCarry|atomicOr|bitCount|find_lsb|find_msb|lessThan|notEqual|barrier|findLSB|findMSB|range_inclusive|range)\\b(?=\\s*\\()"
+        },
+        "storage-modifier-glsl": {
+            "name": "storage.modifier.gmacs",
+            "match": "\\b(?:shared|layout|buffer|push_constant|std430|std140|readonly|writeonly|coherent|volatile|restrict)\\b"
+        },
+        "parens": {
+            "name": "meta.parenthesis.gmacs",
+            "begin": "\\(",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.parenthesis.begin.gmacs"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.parenthesis.end.gmacs"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#expression"
+                },
+                {
+                    "include": "source.gdshader"
+                }
+            ]
+        },
+        "expression": {
+            "patterns": [
+                {
+                    "include": "#parens"
+                },
+                {
+                    "include": "#word-operator"
+                },
+                {
+                    "include": "#operand"
+                },
+                {
+                    "include": "#builtin-variable"
+                },
+                {
+                    "include": "#builtin-function"
+                },
+                {
+                    "include": "#storage-modifier-glsl"
+                },
+                {
+                    "include": "#type-builtin"
+                }
+            ]
         }
     }
 }
