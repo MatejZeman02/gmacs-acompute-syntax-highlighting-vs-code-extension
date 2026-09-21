@@ -34,6 +34,10 @@
                     ".glsl",
                     ".c"
                 ],
+                "mimetypes": [
+                    "text/x-glsl",
+                    "text/x-c"
+                ],
                 "icon": {
                     "light": "./file-icon-light.png",
                     "dark": "./file-icon-dark.png"
