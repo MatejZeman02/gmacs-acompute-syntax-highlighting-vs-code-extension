@@ -64,6 +64,9 @@
             "include": "#block-colon"
         },
         {
+            "include": "#hint"
+        },
+        {
             "include": "#expression"
         },
         {
@@ -510,6 +513,10 @@
                     "include": "#type-builtin"
                 }
             ]
+        },
+        "hint": {
+            "name": "support.type.annotation.gmacs",
+            "match": "\\b(?:hint_range|hint_enum|source_color)\\b"
         }
     }
 }

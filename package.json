@@ -1,8 +1,8 @@
 {
     "name": "gmacs-syntax",
     "displayName": "GMACS Compute Shader Syntax",
-    "description": "Syntax highlighting for the .gmacs compute shader dialect of the Sara painting program",
-    "version": "1.1.0",
+    "description": "Syntax highlighting for the .gmacs compute shader dialect of the Sara painting program, in files and in %%gmacs notebook cells",
+    "version": "1.2.0",
     "author": "Matej Zeman",
     "publisher": "matej-zeman",
     "license": "MIT",
@@ -50,6 +50,16 @@
                 "language": "gmacs",
                 "scopeName": "source.gmacs",
                 "path": "./syntaxes/gmacs.tmLanguage.json"
+            },
+            {
+                "scopeName": "source.python.gmacs-cell",
+                "path": "./syntaxes/gmacs-cell.injection.tmLanguage.json",
+                "injectTo": [
+                    "source.python"
+                ],
+                "embeddedLanguages": {
+                    "meta.embedded.block.gmacs": "gmacs"
+                }
             }
         ]
     }

@@ -1,0 +1,53 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "gmacs cell magic",
+    "scopeName": "source.python.gmacs-cell",
+    "injectionSelector": "L:source.python -meta.embedded.block.gmacs",
+    "patterns": [
+        {
+            "include": "#gmacs-cell"
+        }
+    ],
+    "repository": {
+        "gmacs-cell": {
+            "comment": "A notebook cell is its own document, so \\A is the cell's first line and the end never matches: the whole cell after %%gmacs is gmacs.",
+            "name": "meta.embedded.block.gmacs",
+            "begin": "\\A(%%)(gmacs)\\b(.*)$",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.definition.magic.gmacs"
+                },
+                "2": {
+                    "name": "keyword.control.magic.gmacs"
+                },
+                "3": {
+                    "patterns": [
+                        {
+                            "name": "string.quoted.double.gmacs",
+                            "match": "\"[^\"]*\""
+                        },
+                        {
+                            "name": "keyword.operator.arrow.gmacs",
+                            "match": "->"
+                        },
+                        {
+                            "name": "variable.parameter.gmacs",
+                            "match": "\\b[A-Za-z_]\\w*(?==)"
+                        },
+                        {
+                            "name": "constant.numeric.gmacs",
+                            "match": "\\b\\d+(?:\\.\\d*)?\\b"
+                        }
+                    ]
+                }
+            },
+            "end": "(?=A)B",
+            "contentName": "source.gmacs",
+            "patterns": [
+                {
+                    "include": "source.gmacs"
+                }
+            ]
+        }
+    }
+}

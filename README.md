@@ -38,6 +38,20 @@ claimed on purpose, so shader code kept in those files gets the same colours. If
 another extension should win for them, set `files.associations` in your VS Code
 settings.
 
+## Notebook cells
+
+A Jupyter notebook cell whose first line is `%%gmacs` holds a Sara kernel, run
+by the cell magic of Sara's Python client. VS Code gives each cell the language
+of the notebook's kernel and resets any other language a Python kernel does not
+know, so the extension injects a grammar into Python instead. In a cell that
+starts with `%%gmacs`, the rest of the cell is coloured as gmacs, and the magic
+line colours its layer names. A `%%gmacs` line anywhere below the first line
+does nothing, as in IPython. Every other cell stays Python.
+
+The kernels written for notebooks declare their sliders the way Godot shaders
+do, `uniform float amount: hint_range(0, 1) = 1.0`, and `hint_range`,
+`hint_enum` and `source_color` are coloured as hints.
+
 ## Colours
 
 Scopes, and the colour each one gets in the default dark theme:
@@ -51,6 +65,8 @@ Scopes, and the colour each one gets in the default dark theme:
 | the name after `def` or `kernel`, and built-in functions | `entity.name.function.gmacs`, `support.function.builtin.gmacs` | yellow |
 | `pixel`, `global_id` and the other built-in variables | `variable.language.gmacs` | blue |
 | `#` comments | `comment.line.number-sign.gmacs` | green |
+| `hint_range`, `hint_enum`, `source_color` | `support.type.annotation.gmacs` | teal |
+| `%%gmacs` at the top of a notebook cell | `keyword.control.magic.gmacs` | purple |
 
 To see the scope of any token, run **Developer: Inspect Editor Tokens and
 Scopes** from the command palette.
@@ -69,7 +85,7 @@ This writes `gmacs-syntax-<version>.vsix` next to `package.json`.
 ## Install
 
 ```bash
-code --install-extension gmacs-syntax-1.1.0.vsix
+code --install-extension gmacs-syntax-1.2.0.vsix
 ```
 
 Or open the Extensions view, choose the `...` menu and pick **Install from
@@ -121,6 +137,11 @@ layout(rgba32f, set = 0, binding = 0) uniform image2D canvas;
     imageStore(canvas, ivec2(gl_GlobalInvocationID.xy), vec4(1.0));
 }
 ```
+
+## What changed in 1.2.0
+
+- A notebook cell that starts with `%%gmacs` is coloured as gmacs.
+- `hint_range`, `hint_enum` and `source_color` are coloured as hints.
 
 ## What changed in 1.1.0
 
