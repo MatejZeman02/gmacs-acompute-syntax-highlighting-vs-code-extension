@@ -84,6 +84,10 @@ This writes `gmacs-syntax-<version>.vsix` next to `package.json`.
 
 ## Install
 
+Download `gmacs-syntax-<version>.vsix` from the
+[latest release](https://github.com/MatejZeman02/gmacs-acompute-syntax-highlighting-vs-code-extension/releases/latest), then run, with the
+version you downloaded:
+
 ```bash
 code --install-extension gmacs-syntax-1.2.0.vsix
 ```
