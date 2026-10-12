@@ -1,0 +1,30 @@
+[
+    {
+        "name": "a one-line triple quoted block at the top level",
+        "cell": "%%gmacs\n\"\"\"Inverts the layer, float kernel def.\"\"\"\nkernel invert(image dst):\n    pass\n"
+    },
+    {
+        "name": "a many-line triple quoted block at the top level",
+        "cell": "%%gmacs\n\"\"\"A gradient map.\n\nparams float strength, struct Pixel, imageLoad\nmix(a, b, t) # not a line comment\n\"\"\"\nimport \"lib/colour.gmacs\"\n"
+    },
+    {
+        "name": "a many-line single quoted block at the top level",
+        "cell": "%%gmacs\n'''Dither.\nkernel def struct vec4 float\n'''\nstruct Pixel:\n    vec4 colour\n"
+    },
+    {
+        "name": "a one-line and a many-line slash star block at the top level",
+        "cell": "%%gmacs\n/* one line, kernel float */\n/* many\n   lines, def struct\n   vec4 mix() */ kernel blur(image dst):\n    pass\n"
+    },
+    {
+        "name": "blocks inside a def body and its signature",
+        "cell": "%%gmacs\ndef shade(/* the pixel */ uv: vec2) -> vec4:\n    \"\"\"Shades a pixel.\n    Second line, kernel float def.\"\"\"\n    '''One line in single quotes.'''\n    /* a note\n       params float x */\n    return vec4(uv, 0.0, 1.0)\n"
+    },
+    {
+        "name": "blocks inside a params block",
+        "cell": "%%gmacs\nparams:\n    \"\"\"The sliders, float radius.\"\"\"\n    float radius = 8.0\n    '''spare\n    float y'''\n    /* spare\n    float z */\n    float w = 1.0\n"
+    },
+    {
+        "name": "a block inside a struct and inside parentheses",
+        "cell": "%%gmacs\nstruct Pixel:\n    /* the colour, vec4 */\n    vec4 colour\n    \"\"\"many\n    float lines\"\"\"\n    float alpha\nx = mix(a, /* b */ c, 0.5)\n"
+    }
+]

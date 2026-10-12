@@ -2,7 +2,7 @@
     "name": "gmacs-syntax",
     "displayName": "GMACS Compute Shader Syntax",
     "description": "Syntax highlighting for the .gmacs compute shader dialect of the Sara painting program, in files and in %%gmacs notebook cells",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": "Matej Zeman",
     "publisher": "matej-zeman",
     "license": "MIT",
@@ -62,5 +62,9 @@
                 }
             }
         ]
+    },
+    "devDependencies": {
+        "vscode-oniguruma": "^2.0.1",
+        "vscode-textmate": "^9.3.2"
     }
 }

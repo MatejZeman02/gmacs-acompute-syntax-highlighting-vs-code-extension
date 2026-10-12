@@ -4,6 +4,9 @@
     "scopeName": "source.gmacs",
     "patterns": [
         {
+            "include": "#comment-block"
+        },
+        {
             "include": "#directive-include"
         },
         {
@@ -74,6 +77,56 @@
         }
     ],
     "repository": {
+        "comment-block": {
+            "comment": "A block comment, /* */ or a triple quoted block in either quote, is one comment wherever it stands. The dialect strips the first and reads the second as a docstring.",
+            "patterns": [
+                {
+                    "name": "comment.block.gmacs",
+                    "begin": "/\\*",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.gmacs"
+                        }
+                    },
+                    "end": "\\*/",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.gmacs"
+                        }
+                    }
+                },
+                {
+                    "name": "comment.block.documentation.gmacs",
+                    "begin": "\"\"\"",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.gmacs"
+                        }
+                    },
+                    "end": "\"\"\"",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.gmacs"
+                        }
+                    }
+                },
+                {
+                    "name": "comment.block.documentation.gmacs",
+                    "begin": "'''",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.begin.gmacs"
+                        }
+                    },
+                    "end": "'''",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.end.gmacs"
+                        }
+                    }
+                }
+            ]
+        },
         "comment": {
             "name": "comment.line.number-sign.gmacs",
             "match": "(#).*$",
@@ -114,6 +167,9 @@
             },
             "end": "\\]",
             "patterns": [
+                {
+                    "include": "#comment-block"
+                },
                 {
                     "match": "\\b[0-9]+\\b",
                     "name": "constant.numeric.integer.gmacs"
@@ -268,6 +324,9 @@
             "end": "^(?!\\1[ \\t]+\\S|[ \\t]*$|[ \\t]*#)",
             "patterns": [
                 {
+                    "include": "#comment-block"
+                },
+                {
                     "include": "#comment"
                 },
                 {
@@ -304,6 +363,9 @@
             },
             "end": "^(?!\\1[ \\t]+\\S|[ \\t]*$|[ \\t]*#)",
             "patterns": [
+                {
+                    "include": "#comment-block"
+                },
                 {
                     "include": "#comment"
                 },
@@ -360,6 +422,9 @@
                 }
             },
             "patterns": [
+                {
+                    "include": "#comment-block"
+                },
                 {
                     "include": "#comment"
                 },
@@ -479,6 +544,9 @@
             },
             "patterns": [
                 {
+                    "include": "#comment-block"
+                },
+                {
                     "include": "#comment"
                 },
                 {
@@ -491,6 +559,9 @@
         },
         "expression": {
             "patterns": [
+                {
+                    "include": "#comment-block"
+                },
                 {
                     "include": "#parens"
                 },

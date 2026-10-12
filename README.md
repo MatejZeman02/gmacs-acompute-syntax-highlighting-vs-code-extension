@@ -9,6 +9,7 @@ languages of the Sara painting program.
 
 A `.gmacs` file is GLSL compute written the way a Python user would write it.
 Blocks are set by indentation, `def` declares a function, `#` opens a comment,
+`/* */` and a triple quoted block are block comments,
 and the storage is declared with short lines such as `image dst` and `params:`.
 The body of a function is still plain GLSL.
 
@@ -21,7 +22,8 @@ This extension colours both halves. The Python-shaped half has its own grammar:
 - `and`, `or` and `not`
 - the snake_case built-ins such as `image_load`, and the short names `pixel`,
   `global_id` and `local_id`
-- `#` comments
+- `#` comments, and `/* */` and triple quoted blocks in either quote as block
+  comments wherever they stand, inside a `def`, `params` or `struct` too
 
 Plain GLSL bodies fall through to the GDShader grammar from **Godot Tools**,
 which colours types, swizzles, numbers and operators.
@@ -65,6 +67,8 @@ Scopes, and the colour each one gets in the default dark theme:
 | the name after `def` or `kernel`, and built-in functions | `entity.name.function.gmacs`, `support.function.builtin.gmacs` | yellow |
 | `pixel`, `global_id` and the other built-in variables | `variable.language.gmacs` | blue |
 | `#` comments | `comment.line.number-sign.gmacs` | green |
+| `/* */` blocks | `comment.block.gmacs` | green |
+| `"""` and `'''` blocks | `comment.block.documentation.gmacs` | green |
 | `hint_range`, `hint_enum`, `source_color` | `support.type.annotation.gmacs` | teal |
 | `%%gmacs` at the top of a notebook cell | `keyword.control.magic.gmacs` | purple |
 
@@ -82,6 +86,16 @@ vsce package
 
 This writes `gmacs-syntax-<version>.vsix` next to `package.json`.
 
+## Test
+
+`npm install` once, then `node test/tokenize.mjs`. It tokenises the cases in
+`test/cases.json` with `vscode-textmate`, as a `%%gmacs` cell and as a file,
+and checks every token against a plain reading of where each comment opens and
+closes. Name notebooks after it and each of their `%%gmacs` cells must be gmacs
+and each Python cell Python. `--dump` prints every token's scopes. It needs VS
+Code's Python grammar and the GDShader grammar of Godot Tools, found where they
+are installed or named by `GMACS_PYTHON_GRAMMAR` and `GMACS_GDSHADER_GRAMMAR`.
+
 ## Install
 
 Download `gmacs-syntax-<version>.vsix` from the
@@ -89,7 +103,7 @@ Download `gmacs-syntax-<version>.vsix` from the
 version you downloaded:
 
 ```bash
-code --install-extension gmacs-syntax-1.2.0.vsix
+code --install-extension gmacs-syntax-1.2.1.vsix
 ```
 
 Or open the Extensions view, choose the `...` menu and pick **Install from
@@ -141,6 +155,14 @@ layout(rgba32f, set = 0, binding = 0) uniform image2D canvas;
     imageStore(canvas, ivec2(gl_GlobalInvocationID.xy), vec4(1.0));
 }
 ```
+
+## What changed in 1.2.1
+
+- A `/* */` block and a triple quoted block, in `"""` or `'''`, are coloured
+  as comments in a file and in a `%%gmacs` cell, at the top level and inside
+  every block, one line or many.
+- **Toggle Line Comment** writes `#` and **Toggle Block Comment** writes
+  `/* */`.
 
 ## What changed in 1.2.0
 
