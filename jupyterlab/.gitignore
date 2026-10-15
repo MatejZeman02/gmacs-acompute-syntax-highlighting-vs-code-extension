@@ -1,0 +1,4 @@
+node_modules/
+lib/
+jupyterlab_gmacs_syntax/labextension/
+*.tsbuildinfo

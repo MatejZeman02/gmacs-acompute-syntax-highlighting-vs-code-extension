@@ -1,0 +1,5 @@
+{
+  "packageManager": "python",
+  "packageName": "jupyterlab_gmacs_syntax",
+  "uninstallInstructions": "pip uninstall jupyterlab-gmacs-syntax"
+}

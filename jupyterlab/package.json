@@ -1,0 +1,29 @@
+{
+  "name": "jupyterlab-gmacs-syntax",
+  "version": "0.1.3",
+  "description": "Highlights %%gmacs cells in JupyterLab and Jupyter Notebook as gmacs, the compute shader dialect of the Sara painting program",
+  "author": "Matěj Zeman",
+  "license": "MIT",
+  "keywords": ["jupyter", "jupyterlab", "jupyterlab-extension", "gmacs", "glsl"],
+  "main": "lib/index.js",
+  "files": ["lib/**/*.js"],
+  "scripts": {
+    "names": "python3 generate_names.py",
+    "build": "npm run names && tsc && jupyter-builder build --development=False ."
+  },
+  "dependencies": {
+    "@codemirror/language": "^6.0.0",
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "@jupyterlab/application": "^4.0.0",
+    "@jupyterlab/codemirror": "^4.0.0"
+  },
+  "devDependencies": {
+    "@jupyterlab/builder": "^4.0.0",
+    "typescript": "~5.5.0"
+  },
+  "jupyterlab": {
+    "extension": true,
+    "outputDir": "jupyterlab_gmacs_syntax/labextension"
+  }
+}
