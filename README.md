@@ -54,6 +54,14 @@ The kernels written for notebooks declare their sliders the way Godot shaders
 do, `uniform float amount: hint_range(0, 1) = 1.0`, and `hint_range`,
 `hint_enum` and `source_color` are coloured as hints.
 
+## JupyterLab
+
+The same colouring for `%%gmacs` cells in JupyterLab and Jupyter Notebook is a
+JupyterLab extension of its own, kept in the `jupyterlab` folder of this
+repository with its built wheel, `jupyterlab_gmacs_syntax-0.1.3-py3-none-any.whl`.
+Install it with `pip install` on that wheel. How it is built and tested is in
+the folder's `README.md`. The folder is left out of the `.vsix`.
+
 ## Colours
 
 Scopes, and the colour each one gets in the default dark theme:

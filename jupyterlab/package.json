@@ -9,7 +9,7 @@
   "files": ["lib/**/*.js"],
   "scripts": {
     "names": "python3 generate_names.py",
-    "build": "npm run names && tsc && jupyter-builder build --development=False ."
+    "build": "tsc && jupyter-builder build --development=False ."
   },
   "dependencies": {
     "@codemirror/language": "^6.0.0",

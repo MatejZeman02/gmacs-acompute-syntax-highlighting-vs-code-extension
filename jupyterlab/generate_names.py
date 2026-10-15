@@ -1,15 +1,20 @@
 """Writes src/names.ts, the names the gmacs highlighter colours as built in.
 
 Both spellings of every renamed GLSL name come from the dialect's own table,
-sara-godot/core/custom-shader/gmacs_names.json, so a name the dialect gains
-is coloured after the next build. The GLSL functions gmacs keeps under their
-own name, and the few names the pixel function wrapper adds, are listed here.
+which Sara keeps at sara-godot/core/custom-shader/gmacs_names.json in its own
+repository. Its path is the one argument:
+
+    python3 generate_names.py ../sara/sara-godot/core/custom-shader/gmacs_names.json
+
+so a name the dialect gains is coloured after the next run. The GLSL functions
+gmacs keeps under their own name, and the few names the pixel function wrapper
+adds, are listed here.
 """
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-TABLE = HERE.parents[2] / "sara-godot" / "core" / "custom-shader" / "gmacs_names.json"
 
 # GLSL built-in functions gmacs spells as GLSL does, plus its two range forms.
 STD_FUNCS = """
@@ -30,7 +35,9 @@ def as_set(name, values):
 
 
 def main():
-    table = json.loads(TABLE.read_text(encoding="utf-8"))
+    if len(sys.argv) != 2:
+        sys.exit("usage: python3 generate_names.py <path to Sara's gmacs_names.json>")
+    table = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     functions = list(table["functions"]) + list(table["functions"].values())
     variables = list(table["variables"]) + list(table["variables"].values()) + WRAPPER_VARS
     out = HERE / "src" / "names.ts"

@@ -47,9 +47,9 @@ the cell's own MIME type to `text/x-gmacs`, and the cell's editor reloads its
 language. When the magic line goes, the cell gets its old type back.
 jupyterlab-lsp switches the language of a cell the same way.
 
-The tokenizer in `src/gmacs.ts` is a port by hand of the VS Code grammar in
-`editors/vscode/gmacs-syntax`, because CodeMirror, the editor JupyterLab uses,
-cannot read a TextMate grammar.
+The tokenizer in `src/gmacs.ts` is a port by hand of the VS Code grammar at
+the root of this repository, in `syntaxes/`, because CodeMirror, the editor
+JupyterLab uses, cannot read a TextMate grammar.
 
 ## Building
 
@@ -62,10 +62,17 @@ npm run build
 pip wheel . --no-deps -w .
 ```
 
-`npm run build` first runs `generate_names.py`, which reads the dialect's own
-name table, `sara-godot/core/custom-shader/gmacs_names.json`, and writes
-`src/names.ts`. A name the dialect gains is therefore coloured after the next
-build. Raise the version in both `package.json` and `pyproject.toml` before
+`src/names.ts` is committed, so a build needs nothing outside this folder.
+It is written by `generate_names.py` from the dialect's own name table, which
+Sara keeps at `sara-godot/core/custom-shader/gmacs_names.json` in Sara's
+repository. When the dialect gains a name, run it with the table's path and
+build again:
+
+```bash
+npm run names -- path/to/sara/sara-godot/core/custom-shader/gmacs_names.json
+```
+
+Raise the version in both `package.json` and `pyproject.toml` before
 shipping a new wheel, and delete the old one.
 
 ## Testing
